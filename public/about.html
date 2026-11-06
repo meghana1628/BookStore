@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Haven | About Us</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #111111;
+            color: #f5f0e8;
+        }
+
+        header {
+            background: #191919;
+            padding: 20px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 18px;
+            border-bottom: 1px solid #393124;
+        }
+
+        header h1 {
+            color: #d6ad60;
+            font-size: 27px;
+        }
+
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+        }
+
+        nav a {
+            color: #dddddd;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: #d6ad60;
+        }
+
+        .hero {
+            min-height: 390px;
+            padding: 70px 8%;
+            display: flex;
+            align-items: center;
+            background-color: #29241e;
+            background-image:
+                linear-gradient(
+                    90deg,
+                    rgba(12, 12, 12, 0.92),
+                    rgba(12, 12, 12, 0.35)
+                ),
+                url("https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=1800&q=85");
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .hero-content {
+            max-width: 680px;
+        }
+
+        .eyebrow {
+            color: #d6ad60;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 12px;
+            margin-bottom: 18px;
+        }
+
+        .hero h2 {
+            font-size: clamp(36px, 5vw, 58px);
+            line-height: 1.15;
+            margin-bottom: 20px;
+        }
+
+        .gold {
+            color: #d6ad60;
+        }
+
+        .hero p {
+            color: #e0dbd2;
+            line-height: 1.9;
+            max-width: 570px;
+            font-size: 16px;
+        }
+
+        .section {
+            max-width: 1250px;
+            margin: auto;
+            padding: 65px 6%;
+        }
+
+        .section-heading {
+            margin-bottom: 25px;
+        }
+
+        .section-heading h2 {
+            font-size: 30px;
+            margin-bottom: 12px;
+        }
+
+        .section-heading p {
+            color: #aaa39a;
+            line-height: 1.8;
+        }
+
+        .story {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 45px;
+            align-items: center;
+        }
+
+        .story-image {
+            width: 100%;
+            height: 390px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 1px solid #393124;
+            background: #24211c;
+        }
+
+        .story-text p {
+            color: #bcb5aa;
+            line-height: 1.9;
+            margin-bottom: 18px;
+        }
+
+        .values {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 22px;
+            margin-top: 30px;
+        }
+
+        .value-card {
+            background: #1c1c1c;
+            border: 1px solid #393124;
+            border-radius: 12px;
+            padding: 28px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .value-card:hover {
+            transform: translateY(-5px);
+            border-color: #d6ad60;
+        }
+
+        .value-icon {
+            font-size: 30px;
+            margin-bottom: 18px;
+        }
+
+        .value-card h3 {
+            color: #d6ad60;
+            font-size: 19px;
+            margin-bottom: 12px;
+        }
+
+        .value-card p {
+            color: #aaa39a;
+            line-height: 1.8;
+            font-size: 14px;
+        }
+
+        .quote-section {
+            margin: 10px 6% 65px;
+            padding: 45px 8%;
+            background: #201e1a;
+            border-left: 4px solid #d6ad60;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .quote-section p {
+            font-size: clamp(20px, 3vw, 28px);
+            line-height: 1.7;
+            font-style: italic;
+        }
+
+        .quote-section span {
+            display: block;
+            margin-top: 18px;
+            color: #d6ad60;
+            font-size: 13px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        footer {
+            background: #191919;
+            border-top: 1px solid #393124;
+            text-align: center;
+            padding: 25px;
+            color: #9d968c;
+            font-size: 13px;
+        }
+
+        @media (max-width: 800px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .story {
+                grid-template-columns: 1fr;
+            }
+
+            .story-image {
+                height: 280px;
+            }
+
+            .values {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                min-height: 330px;
+                padding: 50px 6%;
+            }
+
+            .section {
+                padding: 45px 6%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Book <span class="gold">Haven.</span></h1>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="books.html">Books</a>
+        <a href="add-book.html">Add Book</a>
+        <a href="manage-books.html">Manage Books</a>
+        <a href="categories.html">Categories</a>
+        <a href="inventory.html">Inventory</a>
+        <a href="about.html" class="active">About</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="hero-content">
+        <div class="eyebrow">The Story of Book Haven</div>
+
+        <h2>Every Book Opens a <span class="gold">New World.</span></h2>
+
+        <p>
+            We believe books inspire ideas, spark imagination, and help
+            people see the world differently. Book Haven brings readers
+            and stories together in one welcoming place.
+        </p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="story">
+        <div class="story-text">
+            <div class="section-heading">
+                <h2>Who <span class="gold">We Are</span></h2>
+            </div>
+
+            <p>
+                Book Haven is a bookstore management project designed
+                to make book collections easier to organize and explore.
+                Our goal is to create a simple and enjoyable experience
+                for book lovers and bookstore managers.
+            </p>
+
+            <p>
+                From fiction and biographies to science and technology,
+                every category offers something new to discover. Our
+                inventory system also helps keep track of book details
+                and stock availability.
+            </p>
+
+            <p>
+                Whether you are discovering a new author or managing
+                your collection, we want to make every interaction
+                simple, organized, and meaningful.
+            </p>
+        </div>
+
+        <img
+            class="story-image"
+            src="https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?auto=format&fit=crop&w=1000&q=85"
+            alt="Books arranged in a welcoming reading space"
+            loading="lazy"
+            onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=1000&q=85';"
+        >
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-heading">
+        <h2>What Makes Us <span class="gold">Different?</span></h2>
+        <p>Our approach is built around readers, organization, and discovery.</p>
+    </div>
+
+    <div class="values">
+        <div class="value-card">
+            <div class="value-icon">📚</div>
+            <h3>Love for Books</h3>
+            <p>
+                We celebrate stories, knowledge, and the joy of
+                finding a book that inspires you.
+            </p>
+        </div>
+
+        <div class="value-card">
+            <div class="value-icon">✨</div>
+            <h3>Simple Experience</h3>
+            <p>
+                Browse categories, explore book details, and
+                find information through a clean interface.
+            </p>
+        </div>
+
+        <div class="value-card">
+            <div class="value-icon">📦</div>
+            <h3>Organized Inventory</h3>
+            <p>
+                Manage book records and monitor stock levels
+                using our connected inventory system.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="quote-section">
+    <p>
+        "A book is a doorway to ideas, adventures, and possibilities."
+    </p>
+    <span>Our Book Haven Philosophy</span>
+</section>
+
+<footer>
+    © 2026 Book Haven. Made for the love of reading.
+</footer>
+
+</body>
+</html>

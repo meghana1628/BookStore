@@ -1,0 +1,567 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Books | Book Haven</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #141414;
+            --panel: #202020;
+            --gold: #d6ad60;
+            --gold-light: #f0d394;
+            --white: #f8f4eb;
+            --muted: #aaa49a;
+            --border: #393329;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--white);
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        a { text-decoration: none; }
+
+        header {
+            padding: 20px 5%;
+            background: #1b1b1b;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            color: var(--gold);
+            font: 700 27px 'Playfair Display', serif;
+        }
+
+        nav { display: flex; gap: 18px; flex-wrap: wrap; }
+        nav a { color: #ded8cd; font-size: 14px; }
+        nav a:hover, nav a.active { color: var(--gold); }
+
+        .hero {
+            width: 90%;
+            max-width: 1400px;
+            min-height: 250px;
+            margin: 30px auto;
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            border: 1px solid #59472b;
+            border-radius: 15px;
+            background:
+                linear-gradient(90deg, #141414f5, #141414a8, #14141420),
+                url("https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=1500&q=85")
+                center 45% / cover no-repeat;
+        }
+
+        .eyebrow {
+            color: var(--gold);
+            font-size: 12px;
+            letter-spacing: 3px;
+            font-weight: 700;
+            margin-bottom: 13px;
+        }
+
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+
+        .hero h1 { font-size: clamp(35px, 5vw, 50px); margin-bottom: 12px; }
+        .hero p:last-child { color: #ded8cd; line-height: 1.8; }
+
+        main { width: 90%; max-width: 1400px; margin: 40px auto 60px; }
+
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .section-heading h2 { font-size: 31px; margin-bottom: 8px; }
+        .muted { color: var(--muted); font-size: 14px; line-height: 1.7; }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+
+        .stat {
+            padding: 22px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--panel);
+        }
+
+        .stat p { color: var(--muted); font-size: 13px; }
+        .stat strong {
+            display: block;
+            color: var(--gold);
+            font-size: 29px;
+            margin-top: 8px;
+        }
+
+        .table-panel {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .table-toolbar {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid var(--border);
+        }
+
+        input, select {
+            background: #171717;
+            color: var(--white);
+            border: 1px solid #494133;
+            border-radius: 8px;
+            padding: 12px 14px;
+            font: inherit;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        #search { flex: 1; min-width: 200px; }
+
+        .table-wrap { overflow-x: auto; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        th {
+            padding: 16px;
+            text-align: left;
+            background: #28251f;
+            color: var(--gold);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        td {
+            padding: 16px;
+            border-top: 1px solid var(--border);
+            font-size: 14px;
+            vertical-align: middle;
+        }
+
+        tbody tr:hover { background: #ffffff05; }
+
+        .book-cell {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            min-width: 220px;
+        }
+
+        .book-cover {
+            width: 45px;
+            height: 58px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid #6d5732;
+            flex-shrink: 0;
+        }
+
+        .book-title { font-weight: 600; margin-bottom: 5px; }
+        .book-category { color: var(--muted); font-size: 12px; }
+
+        .price { color: var(--gold-light); font-weight: 700; }
+
+        .stock-badge {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 12px;
+            background: #25422d;
+            color: #a9e5b8;
+        }
+
+        .stock-badge.low {
+            background: #4a351a;
+            color: #f5cb7d;
+        }
+
+        .actions { display: flex; gap: 8px; }
+
+        .btn {
+            padding: 8px 12px;
+            border: 1px solid;
+            border-radius: 6px;
+            font: 600 12px 'DM Sans', sans-serif;
+            cursor: pointer;
+        }
+
+        .edit-btn {
+            background: #302a1d;
+            color: var(--gold-light);
+            border-color: #67512e;
+        }
+
+        .delete-btn {
+            background: #351e1e;
+            color: #ffb5aa;
+            border-color: #663535;
+        }
+
+        .btn:hover { filter: brightness(1.25); }
+
+        .message {
+            padding: 15px 20px;
+            display: none;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+
+        .message.show { display: block; }
+        .message.error { color: #ffb5aa; }
+        .message.success { color: #a9e5b8; }
+
+        .empty { text-align: center; padding: 40px; color: var(--muted); }
+
+        .add-link {
+            display: inline-block;
+            padding: 12px 17px;
+            border-radius: 7px;
+            background: var(--gold);
+            color: #19150e;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        footer {
+            margin-top: 60px;
+            padding: 25px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        footer span { color: var(--gold); }
+
+        @media (max-width: 750px) {
+            header { justify-content: center; }
+            nav { justify-content: center; gap: 12px; }
+            .stats { grid-template-columns: 1fr; }
+            .hero { padding: 25px; }
+            .section-heading h2 { font-size: 26px; }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <a href="index.html" class="logo">📚 Book Haven</a>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="books.html">Books</a>
+        <a href="add-book.html">Add Book</a>
+        <a href="manage-books.html" class="active">Manage Books</a>
+        <a href="categories.html">Categories</a>
+        <a href="inventory.html">Inventory</a>
+        <a href="about.html">About</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <div>
+        <p class="eyebrow">COLLECTION ADMINISTRATION</p>
+        <h1>Manage Your Books</h1>
+        <p>Keep your collection accurate, organised and up to date.</p>
+    </div>
+</section>
+
+<main>
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">BOOKSTORE CONTROL CENTRE</p>
+            <h2>Book Management</h2>
+            <p class="muted">Edit book details or remove books from your collection.</p>
+        </div>
+
+        <a href="add-book.html" class="add-link">＋ Add New Book</a>
+    </div>
+
+    <section class="stats">
+        <div class="stat">
+            <p>Total Titles</p>
+            <strong id="totalTitles">—</strong>
+        </div>
+        <div class="stat">
+            <p>Total Copies in Stock</p>
+            <strong id="totalCopies">—</strong>
+        </div>
+        <div class="stat">
+            <p>Low Stock Titles</p>
+            <strong id="lowStock">—</strong>
+        </div>
+    </section>
+
+    <section class="table-panel">
+        <div class="table-toolbar">
+            <div>
+                <h3>All Books</h3>
+                <p class="muted" id="resultCount">Loading collection...</p>
+            </div>
+
+            <input id="search" type="search" placeholder="Search title or author...">
+        </div>
+
+        <div id="message" class="message" role="status"></div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Book</th>
+                        <th>Author</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="bookRows">
+                    <tr><td colspan="6" class="empty">Loading books...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<footer><span>Book Haven</span> · Every book opens a new world.</footer>
+
+<script>
+    const rows = document.getElementById("bookRows");
+    const search = document.getElementById("search");
+    const message = document.getElementById("message");
+    const resultCount = document.getElementById("resultCount");
+
+    let books = [];
+
+    const categoryImages = {
+        programming: "photo-1515879218367-8466d910aaa4",
+        fiction: "photo-1512820790803-83ca734da794",
+        biography: "photo-1544947950-fa07a98d237f",
+        science: "photo-1532094349884-543bc11b234d",
+        education: "photo-1503676260728-1c00da094a0b",
+        "self-help": "photo-1543002588-bfa74002ed7e",
+        business: "photo-1460925895917-afdab827c52f"
+    };
+
+    function escapeHTML(value) {
+        return String(value ?? "").replace(/[&<>"']/g, c => ({
+            "&": "&amp;", "<": "&lt;", ">": "&gt;",
+            '"': "&quot;", "'": "&#39;"
+        })[c]);
+    }
+
+    function getPrice(book) {
+        return Number(book.prices ?? book.price ?? 0);
+    }
+
+    function getImage(book) {
+        const key = String(book.category || "").toLowerCase();
+        const id = categoryImages[key] || "photo-1544947950-fa07a98d237f";
+        return `https://images.unsplash.com/${id}?auto=format&fit=crop&w=120&q=75`;
+    }
+
+    function showMessage(text, type) {
+        message.textContent = text;
+        message.className = "message show " + type;
+    }
+
+    function updateStats() {
+        document.getElementById("totalTitles").textContent = books.length;
+
+        document.getElementById("totalCopies").textContent =
+            books.reduce((sum, book) => sum + (Number(book.stock) || 0), 0);
+
+        document.getElementById("lowStock").textContent =
+            books.filter(book => Number(book.stock) <= 5).length;
+    }
+
+    function renderBooks() {
+        const query = search.value.trim().toLowerCase();
+
+        const filtered = books.filter(book =>
+            String(book.title || "").toLowerCase().includes(query) ||
+            String(book.author || "").toLowerCase().includes(query)
+        );
+
+        resultCount.textContent = `${filtered.length} book(s) shown`;
+
+        if (filtered.length === 0) {
+            rows.innerHTML = '<tr><td colspan="6" class="empty">No matching books found.</td></tr>';
+            return;
+        }
+
+        rows.innerHTML = filtered.map(book => {
+            const stock = Number(book.stock) || 0;
+            const price = getPrice(book);
+            const id = Number(book.book_id ?? book.id);
+
+            return `
+                <tr>
+                    <td>
+                        <div class="book-cell">
+                            <img class="book-cover"
+                                 src="${getImage(book)}"
+                                 alt=""
+                                 onerror="this.style.display='none'">
+                            <div>
+                                <div class="book-title">${escapeHTML(book.title || "Untitled")}</div>
+                                <div class="book-category">ID: ${escapeHTML(book.book_id ?? book.id ?? "—")}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${escapeHTML(book.author || "—")}</td>
+                    <td>${escapeHTML(book.category || "General")}</td>
+                    <td class="price">₹${price.toLocaleString("en-IN", {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+                    <td><span class="stock-badge ${stock <= 5 ? "low" : ""}">${stock}</span></td>
+                    <td>
+                        <div class="actions">
+                            <button class="btn edit-btn" data-action="edit" data-id="${id}">Edit</button>
+                            <button class="btn delete-btn" data-action="delete" data-id="${id}">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            `;
+        }).join("");
+    }
+
+    async function loadBooks() {
+        try {
+            const response = await fetch("/books");
+            if (!response.ok) throw new Error("Failed to load books");
+
+            books = await response.json();
+            updateStats();
+            renderBooks();
+        } catch (error) {
+            resultCount.textContent = "Unable to load collection";
+            rows.innerHTML = '<tr><td colspan="6" class="empty">Check that your Express server and MySQL database are running.</td></tr>';
+        }
+    }
+
+    async function editBook(id) {
+        const book = books.find(item => Number(item.book_id ?? item.id) === id);
+        if (!book) return;
+
+        const title = prompt("Enter book title:", book.title || "");
+        if (title === null) return;
+        if (!title.trim()) {
+            showMessage("Book title cannot be empty.", "error");
+            return;
+        }
+
+        const author = prompt("Enter author:", book.author || "");
+        if (author === null) return;
+
+        const category = prompt("Enter category:", book.category || "");
+        if (category === null) return;
+
+        const priceInput = prompt("Enter price:", getPrice(book));
+        if (priceInput === null) return;
+
+        const stockInput = prompt("Enter stock quantity:", book.stock ?? 0);
+        if (stockInput === null) return;
+
+        const price = Number(priceInput);
+        const stock = Number(stockInput);
+
+        if (!Number.isFinite(price) || price < 0 ||
+            !Number.isInteger(stock) || stock < 0) {
+            showMessage("Enter a valid price and whole-number stock.", "error");
+            return;
+        }
+
+        try {
+            const response = await fetch(`/books/${id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    title: title.trim(),
+                    author: author.trim(),
+                    category: category.trim(),
+                    prices: price,
+                    stock
+                })
+            });
+
+            if (!response.ok) throw new Error("Update failed");
+
+            showMessage("Book updated successfully.", "success");
+            await loadBooks();
+        } catch (error) {
+            showMessage("Could not update the book. Check your server's PUT /books/:id route and price field name.", "error");
+        }
+    }
+
+    async function deleteBook(id) {
+        const book = books.find(item => Number(item.book_id ?? item.id) === id);
+        if (!book) return;
+
+        if (!confirm(`Delete "${book.title}"? This cannot be undone.`)) return;
+
+        try {
+            const response = await fetch(`/books/${id}`, { method: "DELETE" });
+            if (!response.ok) throw new Error("Delete failed");
+
+            showMessage("Book deleted successfully.", "success");
+            await loadBooks();
+        } catch (error) {
+            showMessage("Could not delete the book. Check your server's DELETE /books/:id route.", "error");
+        }
+    }
+
+    rows.addEventListener("click", event => {
+        const button = event.target.closest("button[data-action]");
+        if (!button) return;
+
+        const id = Number(button.dataset.id);
+        if (!Number.isInteger(id) || id <= 0) {
+            showMessage("This book does not have a valid ID.", "error");
+            return;
+        }
+
+        if (button.dataset.action === "edit") editBook(id);
+        if (button.dataset.action === "delete") deleteBook(id);
+    });
+
+    search.addEventListener("input", renderBooks);
+
+    loadBooks();
+</script>
+
+</body>
+</html>

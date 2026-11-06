@@ -1,0 +1,358 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add a Book | Book Haven</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #141414;
+            --panel: #202020;
+            --gold: #d6ad60;
+            --gold-light: #f0d394;
+            --white: #f8f4eb;
+            --muted: #aaa49a;
+            --border: #393329;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--white);
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        a { text-decoration: none; }
+
+        header {
+            padding: 20px 5%;
+            background: #1b1b1b;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            color: var(--gold);
+            font: 700 27px 'Playfair Display', serif;
+        }
+
+        nav { display: flex; gap: 18px; flex-wrap: wrap; }
+
+        nav a { color: #ded8cd; font-size: 14px; }
+        nav a:hover, nav a.active { color: var(--gold); }
+
+        .hero {
+            width: 90%;
+            max-width: 1400px;
+            min-height: 230px;
+            margin: 30px auto;
+            padding: 35px;
+            display: flex;
+            align-items: center;
+            border: 1px solid #5a4728;
+            border-radius: 15px;
+            background:
+                linear-gradient(90deg, #141414f5, #141414b5, #14141430),
+                url("https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=1500&q=85")
+                center 55% / cover no-repeat;
+        }
+
+        .eyebrow {
+            color: var(--gold);
+            font-size: 12px;
+            letter-spacing: 3px;
+            font-weight: 700;
+            margin-bottom: 13px;
+        }
+
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+
+        .hero h1 { font-size: clamp(34px, 5vw, 48px); margin-bottom: 12px; }
+        .hero p:last-child { color: #ded8cd; line-height: 1.7; }
+
+        main {
+            width: 90%;
+            max-width: 1200px;
+            margin: 40px auto 60px;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+            gap: 28px;
+            align-items: start;
+        }
+
+        .image-panel {
+            min-height: 510px;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            background:
+                linear-gradient(0deg, #111e 0%, #1114 55%, #1111 100%),
+                url("https://images.unsplash.com/photo-1519682337058-a94d519337bc?auto=format&fit=crop&w=900&q=85")
+                center / cover no-repeat;
+        }
+
+        .image-caption {
+            position: absolute;
+            bottom: 25px;
+            left: 25px;
+            right: 25px;
+        }
+
+        .image-caption h2 { font-size: 28px; margin-bottom: 8px; }
+        .image-caption p { color: #e0d8ca; line-height: 1.7; }
+
+        .form-panel {
+            padding: 30px;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+        }
+
+        .form-panel h2 { font-size: 28px; margin-bottom: 8px; }
+        .description { color: var(--muted); font-size: 14px; margin-bottom: 25px; line-height: 1.7; }
+
+        label {
+            display: block;
+            color: #e7dfd0;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 7px;
+        }
+
+        input, select {
+            display: block;
+            width: 100%;
+            padding: 13px 14px;
+            margin-bottom: 19px;
+            border-radius: 8px;
+            border: 1px solid #494133;
+            background: #171717;
+            color: var(--white);
+            font: inherit;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: var(--gold);
+            color: #19150e;
+            border: none;
+            border-radius: 8px;
+            font: 700 15px 'DM Sans', sans-serif;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        button:hover { background: var(--gold-light); }
+
+        .message {
+            display: none;
+            padding: 12px;
+            margin-bottom: 18px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .message.success {
+            display: block;
+            color: #b6e6c0;
+            background: #193a26;
+        }
+
+        .message.error {
+            display: block;
+            color: #ffb4a9;
+            background: #421f1b;
+        }
+
+        footer {
+            padding: 25px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        footer span { color: var(--gold); }
+
+        @media (max-width: 850px) {
+            header { justify-content: center; }
+            nav { justify-content: center; }
+            .layout { grid-template-columns: 1fr; }
+            .image-panel { min-height: 320px; }
+        }
+
+        @media (max-width: 500px) {
+            .hero { padding: 25px; }
+            .form-panel { padding: 20px; }
+            .two-columns { grid-template-columns: 1fr; gap: 0; }
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <a href="index.html" class="logo">📚 Book Haven</a>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="books.html">Books</a>
+        <a href="add-book.html" class="active">Add Book</a>
+        <a href="manage-books.html">Manage Books</a>
+        <a href="categories.html">Categories</a>
+        <a href="inventory.html">Inventory</a>
+        <a href="about.html">About</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <div>
+        <p class="eyebrow">GROW YOUR COLLECTION</p>
+        <h1>Add a New Book</h1>
+        <p>Every great collection begins with another story.</p>
+    </div>
+</section>
+
+<main>
+    <div class="layout">
+
+        <section class="image-panel">
+            <div class="image-caption">
+                <p class="eyebrow">A WORLD OF STORIES</p>
+                <h2>Make Room for<br>Another Adventure.</h2>
+                <p>Add books to your collection and keep your bookstore organised.</p>
+            </div>
+        </section>
+
+        <section class="form-panel">
+            <h2>Book Details</h2>
+            <p class="description">
+                Enter the details below to add a book to your inventory.
+            </p>
+
+            <div id="message" class="message" role="status"></div>
+
+            <form id="bookForm">
+                <label for="title">Book Title *</label>
+                <input id="title" name="title" type="text"
+                       placeholder="Enter the book title" required maxlength="100">
+
+                <label for="author">Author</label>
+                <input id="author" name="author" type="text"
+                       placeholder="Enter author name" maxlength="100">
+
+                <label for="category">Category</label>
+                <select id="category" name="category">
+                    <option value="">Select a category</option>
+                    <option>Programming</option>
+                    <option>Fiction</option>
+                    <option>Biography</option>
+                    <option>Science</option>
+                    <option>Education</option>
+                    <option>Self-Help</option>
+                    <option>Business</option>
+                </select>
+
+                <div class="two-columns">
+                    <div>
+                        <label for="prices">Price (₹) *</label>
+                        <input id="prices" name="prices" type="number"
+                               placeholder="e.g. 499" min="0" step="0.01" required>
+                    </div>
+
+                    <div>
+                        <label for="stock">Stock Quantity *</label>
+                        <input id="stock" name="stock" type="number"
+                               placeholder="e.g. 20" min="0" step="1" required>
+                    </div>
+                </div>
+
+                <button type="submit">＋ Add Book to Collection</button>
+            </form>
+        </section>
+
+    </div>
+</main>
+
+<footer><span>Book Haven</span> · Every book opens a new world.</footer>
+
+<script>
+    const form = document.getElementById("bookForm");
+    const message = document.getElementById("message");
+
+    form.addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        const book = {
+            title: document.getElementById("title").value.trim(),
+            author: document.getElementById("author").value.trim(),
+            category: document.getElementById("category").value,
+            prices: Number(document.getElementById("prices").value),
+            stock: Number(document.getElementById("stock").value)
+        };
+
+        if (!book.title) {
+            showMessage("Please enter a book title.", "error");
+            return;
+        }
+
+        if (!Number.isFinite(book.prices) || book.prices < 0 ||
+            !Number.isInteger(book.stock) || book.stock < 0) {
+            showMessage("Enter a valid price and whole-number stock quantity.", "error");
+            return;
+        }
+
+        try {
+            const response = await fetch("/books", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(book)
+            });
+
+            const result = await response.json().catch(() => ({}));
+
+            if (!response.ok) {
+                throw new Error(result.message || result.error || "Could not add the book.");
+            }
+
+            showMessage("Book added successfully!", "success");
+            form.reset();
+        } catch (error) {
+            showMessage(
+                error.message + " Check that your server and database are running.",
+                "error"
+            );
+        }
+    });
+
+    function showMessage(text, type) {
+        message.textContent = text;
+        message.className = "message " + type;
+    }
+</script>
+</body>
+</html>

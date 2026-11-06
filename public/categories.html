@@ -1,0 +1,427 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Categories | Book Haven</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #141414;
+            --panel: #202020;
+            --gold: #d6ad60;
+            --white: #f8f4eb;
+            --muted: #aaa49a;
+            --border: #393329;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--white);
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        a { text-decoration: none; }
+
+        header {
+            padding: 20px 5%;
+            background: #1b1b1b;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            color: var(--gold);
+            font: 700 27px 'Playfair Display', serif;
+        }
+
+        nav { display: flex; gap: 18px; flex-wrap: wrap; }
+        nav a { color: #ded8cd; font-size: 14px; }
+        nav a:hover, nav a.active { color: var(--gold); }
+
+        .hero {
+            width: 90%;
+            max-width: 1400px;
+            min-height: 330px;
+            margin: 30px auto;
+            padding: 45px;
+            display: flex;
+            align-items: center;
+            border: 1px solid #59472b;
+            border-radius: 16px;
+            background:
+                linear-gradient(90deg, #141414f5 0%, #141414b8 48%, #14141420 100%),
+                url(https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=1600&q=85);
+        }
+
+        .hero-content { max-width: 600px; }
+
+        .eyebrow {
+            color: var(--gold);
+            font-size: 12px;
+            letter-spacing: 3px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+
+        .hero h1 {
+            font-size: clamp(38px, 5vw, 56px);
+            line-height: 1.15;
+            margin-bottom: 15px;
+        }
+
+        .hero h1 span { color: var(--gold); }
+
+        .hero p:last-child {
+            color: #ded8cd;
+            line-height: 1.8;
+        }
+
+        main { width: 90%; max-width: 1400px; margin: 45px auto 60px; }
+
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .section-heading h2 { font-size: 32px; margin-bottom: 8px; }
+        .muted { color: var(--muted); font-size: 14px; line-height: 1.7; }
+
+        .search-box {
+            width: 300px;
+            max-width: 100%;
+            padding: 13px 16px;
+            background: var(--panel);
+            border: 1px solid #494133;
+            border-radius: 8px;
+            color: var(--white);
+            font: inherit;
+        }
+
+        .search-box:focus { outline: none; border-color: var(--gold); }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 24px;
+        }
+
+        .category-card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+            transition: .25s;
+        }
+
+        .category-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--gold);
+            box-shadow: 0 14px 35px #0006;
+        }
+
+        .category-image {
+            height: 205px;
+            overflow: hidden;
+            position: relative;
+            background: #29251f;
+        }
+
+        .category-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform .4s;
+        }
+
+        .category-card:hover .category-image img { transform: scale(1.06); }
+
+        .image-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(0deg, #141414b0, transparent 70%);
+        }
+
+        .category-icon {
+            position: absolute;
+            bottom: 15px;
+            left: 18px;
+            width: 46px;
+            height: 46px;
+            display: grid;
+            place-items: center;
+            border-radius: 10px;
+            background: #171717e8;
+            border: 1px solid #d6ad6080;
+            font-size: 23px;
+        }
+
+        .category-info { padding: 22px; }
+
+        .category-info h3 { font-size: 23px; margin-bottom: 9px; }
+
+        .category-info p {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.7;
+            min-height: 44px;
+        }
+
+        .category-bottom {
+            margin-top: 19px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .book-count { color: var(--gold); font-size: 13px; font-weight: 700; }
+
+        .explore-link { color: var(--gold); font-size: 13px; font-weight: 700; }
+        .explore-link:hover { color: #ffe0a0; }
+
+        .empty {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 45px;
+            border: 1px dashed var(--border);
+            border-radius: 12px;
+            color: var(--muted);
+        }
+
+        footer {
+            margin-top: 60px;
+            padding: 25px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        footer span { color: var(--gold); }
+
+        @media (max-width: 950px) {
+            .category-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+
+        @media (max-width: 650px) {
+            header { justify-content: center; }
+            nav { justify-content: center; gap: 12px; }
+            .hero { padding: 27px; min-height: 300px; }
+            .category-grid { grid-template-columns: 1fr; }
+            .category-image { height: 230px; }
+            .section-heading h2 { font-size: 27px; }
+            .search-box { width: 100%; }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <a href="index.html" class="logo">📚 Book Haven</a>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="books.html">Books</a>
+        <a href="add-book.html">Add Book</a>
+        <a href="manage-books.html">Manage Books</a>
+        <a href="categories.html" class="active">Categories</a>
+        <a href="inventory.html">Inventory</a>
+        <a href="about.html">About</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="hero-content">
+        <p class="eyebrow">EXPLORE YOUR NEXT CHAPTER</p>
+        <h1>Every Interest.<br><span>A World of Books.</span></h1>
+        <p>From technology to timeless stories, discover a collection made for curious minds and passionate readers.</p>
+    </div>
+</section>
+
+<main>
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">FIND YOUR FAVOURITE</p>
+            <h2>Explore Categories</h2>
+            <p class="muted" id="categoryCount">Discover your next great read.</p>
+        </div>
+
+        <input
+            class="search-box"
+            id="categorySearch"
+            type="search"
+            placeholder="Search categories..."
+            aria-label="Search categories"
+        >
+    </div>
+
+    <div class="category-grid" id="categoryGrid">
+        <div class="empty">Loading categories...</div>
+    </div>
+</main>
+
+<footer><span>Book Haven</span> · Every book opens a new world.</footer>
+
+<script>
+    const categoryGrid = document.getElementById("categoryGrid");
+    const categorySearch = document.getElementById("categorySearch");
+    const categoryCount = document.getElementById("categoryCount");
+
+    let books = [];
+
+    const categoryDetails = {
+        "Programming": {
+            icon: "💻",
+            image: "photo-1515879218367-8466d910aaa4",
+            description: "Coding, software development and modern technology."
+        },
+        "Fiction": {
+            icon: "📖",
+            image: "photo-1512820790803-83ca734da794",
+            description: "Adventure, imagination, mysteries and unforgettable stories."
+        },
+        "Biography": {
+            icon: "👤",
+            image: "photo-1544947950-fa07a98d237f",
+            description: "Real-life journeys, achievements and inspiring people."
+        },
+        "Science": {
+            icon: "🔬",
+            image: "photo-1532094349884-543bc11b234d",
+            description: "Explore discoveries, nature, space and scientific ideas."
+        },
+        "Education": {
+            icon: "🎓",
+            image: "photo-1503676260728-1c00da094a0b",
+            description: "Study resources and knowledge to support your learning."
+        },
+        "Self-Help": {
+            icon: "🌱",
+            image: "photo-1543002588-bfa74002ed7e",
+            description: "Personal growth, motivation and better everyday habits."
+        },
+        "Business": {
+            icon: "📈",
+            image: "photo-1460925895917-afdab827c52f",
+            description: "Entrepreneurship, leadership, finance and business ideas."
+        }
+    };
+
+    function escapeHTML(value) {
+        return String(value ?? "").replace(/[&<>"']/g, c => ({
+            "&": "&amp;", "<": "&lt;", ">": "&gt;",
+            '"': "&quot;", "'": "&#39;"
+        })[c]);
+    }
+
+    function renderCategories() {
+        const query = categorySearch.value.trim().toLowerCase();
+
+        const names = [
+            ...new Set([
+                ...Object.keys(categoryDetails),
+                ...books.map(book => book.category).filter(Boolean)
+            ])
+        ].sort();
+
+        const filtered = names.filter(name => name.toLowerCase().includes(query));
+
+        categoryCount.textContent =
+            `${filtered.length} ${filtered.length === 1 ? "category" : "categories"} to explore`;
+
+        if (!filtered.length) {
+            categoryGrid.innerHTML = '<div class="empty">No categories match your search.</div>';
+            return;
+        }
+
+        categoryGrid.innerHTML = filtered.map(name => {
+            const details = categoryDetails[name] || {
+                icon: "📚",
+                image: "photo-1495446815901-a7297e633e8d",
+                description: "Explore books in this collection."
+            };
+
+            const count = books.filter(book =>
+                String(book.category || "").toLowerCase() === name.toLowerCase()
+            ).length;
+
+            const imageURL =
+                `https://images.unsplash.com/${details.image}?auto=format&fit=crop&w=800&q=85`;
+
+            return `
+                <article class="category-card">
+                    <div class="category-image">
+                        <img
+                            src="${imageURL}"
+                            alt="${escapeHTML(name)} books"
+                            loading="lazy"
+                            onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&w=800&q=80';"
+                        >
+                        <div class="image-overlay"></div>
+                        <div class="category-icon">${details.icon}</div>
+                    </div>
+
+                    <div class="category-info">
+                        <h3>${escapeHTML(name)}</h3>
+                        <p>${escapeHTML(details.description)}</p>
+
+                        <div class="category-bottom">
+                            <span class="book-count">
+                                ${count} ${count === 1 ? "book" : "books"}
+                            </span>
+
+                            <a class="explore-link"
+                               href="books.html?category=${encodeURIComponent(name)}">
+                                Explore Collection &rarr;
+                            </a>
+                        </div>
+                    </div>
+                </article>
+            `;
+        }).join("");
+    }
+
+    async function loadBooks() {
+        try {
+            const response = await fetch("/books");
+
+            if (!response.ok) {
+                throw new Error("Unable to load books");
+            }
+
+            books = await response.json();
+            renderCategories();
+        } catch (error) {
+            categoryCount.textContent = "Unable to load book counts";
+
+            // Keep the categories visible even if the database is unavailable.
+            books = [];
+            renderCategories();
+        }
+    }
+
+    categorySearch.addEventListener("input", renderCategories);
+    loadBooks();
+</script>
+
+</body>
+</html>

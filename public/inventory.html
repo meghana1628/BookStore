@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Haven | Inventory Dashboard</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #111111;
+            color: #f5f0e8;
+        }
+
+        header {
+            background: #191919;
+            padding: 20px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 18px;
+            border-bottom: 1px solid #393124;
+        }
+
+        header h1 {
+            color: #d6ad60;
+            font-size: 27px;
+        }
+
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+        }
+
+        nav a {
+            color: #dddddd;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: #d6ad60;
+        }
+
+.hero {
+    min-height: 330px;
+    padding: 60px 8%;
+    display: flex;
+    align-items: center;
+    background-image:
+        linear-gradient(
+            90deg,
+            rgba(12, 12, 12, 0.85),
+            rgba(12, 12, 12, 0.30)
+        ),
+        url("https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1800&q=85");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+        .hero-content {
+            max-width: 650px;
+        }
+
+        .eyebrow {
+            color: #d6ad60;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 12px;
+            margin-bottom: 16px;
+        }
+
+        .hero h2 {
+            font-size: clamp(32px, 5vw, 52px);
+            line-height: 1.15;
+            margin-bottom: 18px;
+        }
+
+        .hero h2 span {
+            color: #d6ad60;
+        }
+
+        .hero p {
+            color: #d0cbc3;
+            line-height: 1.8;
+            max-width: 540px;
+        }
+
+        main {
+            max-width: 1400px;
+            margin: auto;
+            padding: 45px 6%;
+        }
+
+        .section-heading {
+            margin-bottom: 24px;
+        }
+
+        .section-heading h2 {
+            font-size: 27px;
+            margin-bottom: 8px;
+        }
+
+        .section-heading p {
+            color: #aaa39a;
+            line-height: 1.6;
+        }
+
+        .gold {
+            color: #d6ad60;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+            margin-bottom: 45px;
+        }
+
+        .stat-card {
+            background: #1c1c1c;
+            border: 1px solid #393124;
+            border-radius: 12px;
+            padding: 26px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: "";
+            display: block;
+            height: 3px;
+            background: #d6ad60;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+
+        .stat-icon {
+            font-size: 25px;
+            margin-bottom: 18px;
+        }
+
+        .stat-card h3 {
+            color: #aaa39a;
+            font-size: 14px;
+            font-weight: normal;
+            margin-bottom: 12px;
+        }
+
+        .stat-card h2 {
+            font-size: 36px;
+            color: #f5f0e8;
+        }
+
+        .table-panel {
+            background: #1a1a1a;
+            border: 1px solid #393124;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .table-header h2 {
+            font-size: 21px;
+        }
+
+        .search-box {
+            width: min(100%, 300px);
+            padding: 12px 15px;
+            border-radius: 7px;
+            border: 1px solid #4b4437;
+            background: #111111;
+            color: #ffffff;
+            outline: none;
+        }
+
+        .search-box:focus {
+            border-color: #d6ad60;
+        }
+
+        .table-wrap {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 650px;
+        }
+
+        th {
+            background: #25231f;
+            color: #d6ad60;
+            text-align: left;
+            padding: 16px 20px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        td {
+            padding: 18px 20px;
+            border-bottom: 1px solid #302d28;
+            color: #e3ded5;
+            font-size: 14px;
+        }
+
+        tbody tr:hover {
+            background: #24221e;
+        }
+
+        .book-title {
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 7px 11px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .available {
+            background: #173d2b;
+            color: #83e0a7;
+        }
+
+        .low {
+            background: #49391c;
+            color: #f2ca72;
+        }
+
+        .out {
+            background: #482323;
+            color: #ff9999;
+        }
+
+        #message {
+            padding: 20px;
+            color: #d6ad60;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .refresh-note {
+            padding: 16px 22px;
+            color: #a9a197;
+            font-size: 12px;
+            border-top: 1px solid #302d28;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            background: #191919;
+            color: #9d968c;
+            border-top: 1px solid #393124;
+            font-size: 13px;
+        }
+
+        @media (max-width: 800px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                min-height: 300px;
+                padding: 45px 6%;
+            }
+
+            main {
+                padding: 35px 5%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Book <span class="gold">Haven.</span></h1>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="books.html">Books</a>
+        <a href="add-book.html">Add Book</a>
+        <a href="manage-books.html">Manage Books</a>
+        <a href="categories.html">Categories</a>
+        <a href="inventory.html" class="active">Inventory</a>
+        <a href="about.html">About</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="hero-content">
+        <div class="eyebrow">Book Haven Management</div>
+
+        <h2>Inventory <span>Dashboard</span></h2>
+
+        <p>
+            Keep track of your collection, monitor stock availability,
+            and identify books that need restocking — all in one place.
+        </p>
+    </div>
+</section>
+
+<main>
+    <section class="section-heading">
+        <h2>Inventory <span class="gold">Overview</span></h2>
+        <p>A quick summary of your bookstore's current stock.</p>
+    </section>
+
+    <section class="stats">
+        <div class="stat-card">
+            <div class="stat-icon">📚</div>
+            <h3>Total Book Titles</h3>
+            <h2 id="totalTitles">0</h2>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">📦</div>
+            <h3>Total Copies in Stock</h3>
+            <h2 id="totalStock">0</h2>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">⚠️</div>
+            <h3>Low Stock / Out of Stock</h3>
+            <h2 id="lowStock">0</h2>
+        </div>
+    </section>
+
+    <section class="section-heading">
+        <h2>Stock <span class="gold">Details</span></h2>
+        <p>Search your books and check their current availability.</p>
+    </section>
+
+    <section class="table-panel">
+        <div class="table-header">
+            <h2>Book Inventory</h2>
+
+            <input
+                type="search"
+                id="searchInput"
+                class="search-box"
+                placeholder="Search by title or book ID..."
+                aria-label="Search inventory"
+            >
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Book ID</th>
+                        <th>Book Title</th>
+                        <th>Author</th>
+                        <th>Stock</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody id="inventoryTable"></tbody>
+            </table>
+        </div>
+
+        <p id="message" role="status">Loading inventory...</p>
+
+        <div class="refresh-note">
+            Inventory data is loaded from your bookstore database.
+        </div>
+    </section>
+</main>
+
+<footer>
+    © 2026 Book Haven. Your trusted place for books.
+</footer>
+
+<script>
+let allBooks = [];
+
+async function loadInventory() {
+    const table = document.getElementById("inventoryTable");
+    const message = document.getElementById("message");
+
+    try {
+        const response = await fetch("/books");
+
+        if (!response.ok) {
+            throw new Error("Unable to load inventory.");
+        }
+
+        const books = await response.json();
+        allBooks = Array.isArray(books) ? books : [];
+
+        const totalStock = allBooks.reduce(
+            (total, book) => total + Number(book.stock || 0),
+            0
+        );
+
+        const lowStockBooks = allBooks.filter(
+            book => Number(book.stock || 0) <= 5
+        );
+
+        document.getElementById("totalTitles").textContent =
+            allBooks.length;
+
+        document.getElementById("totalStock").textContent =
+            totalStock;
+
+        document.getElementById("lowStock").textContent =
+            lowStockBooks.length;
+
+        displayBooks(allBooks);
+    } catch (error) {
+        table.replaceChildren();
+        message.textContent =
+            "Could not load inventory. Make sure your server and database are running.";
+    }
+}
+
+function displayBooks(books) {
+    const table = document.getElementById("inventoryTable");
+    const message = document.getElementById("message");
+
+    table.replaceChildren();
+
+    if (books.length === 0) {
+        message.textContent = allBooks.length === 0
+            ? "No books found in your inventory."
+            : "No books match your search.";
+
+        return;
+    }
+
+    message.textContent = "";
+
+    books.forEach(book => {
+        const row = document.createElement("tr");
+        const stock = Number(book.stock || 0);
+
+        let statusText = "Available";
+        let statusClass = "available";
+
+        if (stock === 0) {
+            statusText = "Out of Stock";
+            statusClass = "out";
+        } else if (stock <= 5) {
+            statusText = "Low Stock";
+            statusClass = "low";
+        }
+
+        const values = [
+            book.book_id,
+            book.title,
+            book.author,
+            stock
+        ];
+
+        values.forEach((value, index) => {
+            const cell = document.createElement("td");
+            cell.textContent = value ?? "";
+
+            if (index === 1) {
+                cell.className = "book-title";
+            }
+
+            row.appendChild(cell);
+        });
+
+        const statusCell = document.createElement("td");
+        const badge = document.createElement("span");
+
+        badge.className = "status " + statusClass;
+        badge.textContent = statusText;
+
+        statusCell.appendChild(badge);
+        row.appendChild(statusCell);
+        table.appendChild(row);
+    });
+}
+
+document.getElementById("searchInput").addEventListener("input", function () {
+    const query = this.value.trim().toLowerCase();
+
+    const filteredBooks = allBooks.filter(book =>
+        String(book.book_id ?? "").toLowerCase().includes(query) ||
+        String(book.title ?? "").toLowerCase().includes(query)
+    );
+
+    displayBooks(filteredBooks);
+});
+
+loadInventory();
+</script>
+
+</body>
+</html>

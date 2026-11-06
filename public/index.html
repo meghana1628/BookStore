@@ -1,0 +1,582 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Book Haven | Home</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --background: #141414;
+            --panel: #202020;
+            --gold: #d6ad60;
+            --gold-light: #f2d394;
+            --white: #f8f4eb;
+            --muted: #aaa49a;
+            --border: #37332c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--background);
+            color: var(--white);
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        /* TOP NAVIGATION */
+
+        header {
+            width: 100%;
+            min-height: 82px;
+            padding: 18px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            background: #1b1b1b;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 27px;
+            font-weight: 700;
+            color: var(--gold);
+            white-space: nowrap;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: #ded8cd;
+            font-size: 14px;
+            transition: 0.25s;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: var(--gold);
+        }
+
+        nav a.active {
+            border-bottom: 2px solid var(--gold);
+            padding-bottom: 6px;
+        }
+
+        /* HERO BANNER WITH REALISTIC IMAGE */
+
+        .hero {
+            min-height: 510px;
+            margin: 30px auto;
+            width: 92%;
+            max-width: 1500px;
+            border: 1px solid #5a4728;
+            border-radius: 18px;
+            overflow: hidden;
+
+            display: flex;
+            align-items: center;
+            padding: 60px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(12, 12, 12, 0.96) 0%,
+                    rgba(12, 12, 12, 0.84) 42%,
+                    rgba(12, 12, 12, 0.15) 100%
+                ),
+                url("https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=1800&q=85")
+                center 48% / cover no-repeat;
+        }
+
+        .hero-content {
+            max-width: 650px;
+        }
+
+        .eyebrow {
+            color: var(--gold);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            margin-bottom: 22px;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(42px, 5vw, 68px);
+            line-height: 1.12;
+            margin-bottom: 22px;
+            color: #fff5e3;
+        }
+
+        .hero h1 span {
+            color: var(--gold);
+        }
+
+        .hero-description {
+            color: #e0d8ca;
+            font-size: 16px;
+            line-height: 1.9;
+            max-width: 480px;
+            margin-bottom: 30px;
+        }
+
+        .primary-button {
+            display: inline-block;
+            padding: 14px 25px;
+            background: var(--gold);
+            color: #19150e;
+            border-radius: 7px;
+            font-weight: 700;
+            transition: 0.25s;
+        }
+
+        .primary-button:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+        }
+
+        .secondary-button {
+            display: inline-block;
+            padding: 13px 24px;
+            color: var(--white);
+            border: 1px solid #8c754b;
+            border-radius: 7px;
+            margin-left: 10px;
+            transition: 0.25s;
+        }
+
+        .secondary-button:hover {
+            background: #ffffff12;
+            border-color: var(--gold);
+        }
+
+        /* DASHBOARD CONTENT */
+
+        .container {
+            width: 90%;
+            max-width: 1400px;
+            margin: 55px auto;
+        }
+
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .section-label {
+            color: var(--gold);
+            font-size: 11px;
+            letter-spacing: 3px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .section-heading h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+        }
+
+        .section-heading p {
+            color: var(--muted);
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 22px;
+        }
+
+        .stat-card {
+            background: linear-gradient(145deg, #242424, #1b1b1b);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 27px;
+            transition: 0.25s;
+        }
+
+        .stat-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-4px);
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            background: #d6ad6018;
+            border: 1px solid #d6ad6040;
+            font-size: 23px;
+            margin-bottom: 22px;
+        }
+
+        .stat-card p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .stat-card h3 {
+            font-size: 34px;
+            margin-top: 7px;
+            color: var(--gold);
+        }
+
+        /* QUICK ACTIONS */
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 22px;
+        }
+
+        .action-card {
+            display: block;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            padding: 25px;
+            border-radius: 14px;
+            transition: 0.25s;
+        }
+
+        .action-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-4px);
+            background: #26231d;
+        }
+
+        .action-card .action-icon {
+            font-size: 29px;
+            margin-bottom: 18px;
+        }
+
+        .action-card h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--white);
+            font-size: 22px;
+            margin-bottom: 9px;
+        }
+
+        .action-card p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 18px;
+        }
+
+        .action-link {
+            color: var(--gold);
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+            border-top: 1px solid var(--border);
+            padding: 28px 15px;
+            color: var(--muted);
+            font-size: 13px;
+            margin-top: 70px;
+        }
+
+        footer span {
+            color: var(--gold);
+        }
+
+        /* MOBILE RESPONSIVENESS */
+
+        @media (max-width: 950px) {
+            header {
+                justify-content: center;
+            }
+
+            nav {
+                justify-content: center;
+                gap: 15px;
+            }
+
+            .hero {
+                padding: 40px;
+                min-height: 450px;
+            }
+
+            .stats-grid,
+            .actions-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 20px 15px;
+            }
+
+            .logo {
+                font-size: 24px;
+            }
+
+            nav {
+                gap: 12px;
+            }
+
+            nav a {
+                font-size: 12px;
+            }
+
+            .hero {
+                width: 94%;
+                min-height: 430px;
+                padding: 26px;
+                background-position: 58% center;
+            }
+
+            .hero h1 {
+                font-size: 42px;
+            }
+
+            .hero-description {
+                font-size: 14px;
+            }
+
+            .secondary-button {
+                margin: 12px 0 0;
+            }
+
+            .container {
+                width: 92%;
+                margin: 40px auto;
+            }
+
+            .stats-grid,
+            .actions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-heading h2 {
+                font-size: 27px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVIGATION AT THE TOP -->
+
+    <header>
+        <a href="index.html" class="logo">📚 Book Haven</a>
+
+        <nav>
+            <a href="index.html" class="active">Home</a>
+            <a href="books.html">Books</a>
+            <a href="add-book.html">Add Book</a>
+            <a href="manage-books.html">Manage Books</a>
+            <a href="categories.html">Categories</a>
+            <a href="inventory.html">Inventory</a>
+            <a href="about.html">About</a>
+        </nav>
+    </header>
+
+    <!-- HERO IMAGE AND WELCOME SECTION -->
+
+    <section class="hero">
+        <div class="hero-content">
+            <p class="eyebrow">WELCOME TO BOOK HAVEN</p>
+
+            <h1>
+                Every Book Opens<br>
+                <span>A New World.</span>
+            </h1>
+
+            <p class="hero-description">
+                Discover wonderful stories, explore new ideas and find
+                your next favourite read in our growing book collection.
+            </p>
+
+            <a href="books.html" class="primary-button">
+                Explore Books &rarr;
+            </a>
+
+            <a href="categories.html" class="secondary-button">
+                Browse Categories
+            </a>
+        </div>
+    </section>
+
+    <!-- DASHBOARD STATISTICS -->
+
+    <main class="container">
+
+        <section>
+            <div class="section-heading">
+                <div>
+                    <p class="section-label">YOUR BOOKSTORE</p>
+                    <h2>Dashboard Overview</h2>
+                    <p>Keep track of your collection at a glance.</p>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <article class="stat-card">
+                    <div class="stat-icon">📚</div>
+                    <p>Total Book Titles</p>
+                    <h3 id="totalBooks">—</h3>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-icon">📦</div>
+                    <p>Total Stock</p>
+                    <h3 id="totalStock">—</h3>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-icon">🏷️</div>
+                    <p>Book Categories</p>
+                    <h3 id="totalCategories">—</h3>
+                </article>
+            </div>
+        </section>
+
+        <!-- QUICK ACTION LINKS -->
+
+        <section style="margin-top: 55px;">
+            <div class="section-heading">
+                <div>
+                    <p class="section-label">GET STARTED</p>
+                    <h2>Manage Your Bookstore</h2>
+                    <p>Choose an action to continue.</p>
+                </div>
+            </div>
+
+            <div class="actions-grid">
+
+                <a href="books.html" class="action-card">
+                    <div class="action-icon">📖</div>
+                    <h3>Explore Books</h3>
+                    <p>Browse, search and discover books in your collection.</p>
+                    <span class="action-link">View Collection &rarr;</span>
+                </a>
+
+                <a href="add-book.html" class="action-card">
+                    <div class="action-icon">✦</div>
+                    <h3>Add a New Book</h3>
+                    <p>Add book details, authors, prices and stock information.</p>
+                    <span class="action-link">Add Book &rarr;</span>
+                </a>
+
+                <a href="manage-books.html" class="action-card">
+                    <div class="action-icon">🗂️</div>
+                    <h3>Manage Collection</h3>
+                    <p>Update existing book information or remove a book.</p>
+                    <span class="action-link">Manage Books &rarr;</span>
+                </a>
+
+                <a href="categories.html" class="action-card">
+                    <div class="action-icon">🪄</div>
+                    <h3>Categories</h3>
+                    <p>Explore books organized by their categories and subjects.</p>
+                    <span class="action-link">Browse Categories &rarr;</span>
+                </a>
+
+                <a href="inventory.html" class="action-card">
+                    <div class="action-icon">📦</div>
+                    <h3>Inventory</h3>
+                    <p>Check available stock and identify books running low.</p>
+                    <span class="action-link">View Inventory &rarr;</span>
+                </a>
+
+                <a href="about.html" class="action-card">
+                    <div class="action-icon">ℹ️</div>
+                    <h3>About Book Haven</h3>
+                    <p>Learn more about this bookstore management project.</p>
+                    <span class="action-link">Learn More &rarr;</span>
+                </a>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p><span>Book Haven</span> · Every book opens a new world.</p>
+    </footer>
+
+    <!-- LOAD STATISTICS FROM YOUR EXISTING EXPRESS API -->
+
+    <script>
+        async function loadDashboard() {
+            try {
+                const response = await fetch("/books");
+
+                if (!response.ok) {
+                    throw new Error("Unable to load books");
+                }
+
+                const books = await response.json();
+
+                const totalStock = books.reduce((sum, book) => {
+                    return sum + (Number(book.stock) || 0);
+                }, 0);
+
+                const categories = new Set(
+                    books
+                        .map(book => book.category)
+                        .filter(category => category && category.trim())
+                        .map(category => category.trim().toLowerCase())
+                );
+
+                document.getElementById("totalBooks").textContent =
+                    books.length;
+
+                document.getElementById("totalStock").textContent =
+                    totalStock;
+
+                document.getElementById("totalCategories").textContent =
+                    categories.size;
+
+            } catch (error) {
+                document.getElementById("totalBooks").textContent = "—";
+                document.getElementById("totalStock").textContent = "—";
+                document.getElementById("totalCategories").textContent = "—";
+
+                console.error("Dashboard loading error:", error);
+            }
+        }
+
+        loadDashboard();
+    </script>
+
+</body>
+</html>
